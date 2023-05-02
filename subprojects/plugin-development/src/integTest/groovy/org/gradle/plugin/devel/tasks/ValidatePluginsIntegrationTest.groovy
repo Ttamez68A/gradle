@@ -913,8 +913,6 @@ class ValidatePluginsIntegrationTest extends AbstractPluginValidationIntegration
             import java.io.*;
             import java.util.*;
 
-            enum SomeEnum { A, B, C }
-
             @DisableCachingByDefault(because = "test task")
             public class MyTask extends DefaultTask {
                 @Nested
@@ -937,7 +935,6 @@ class ValidatePluginsIntegrationTest extends AbstractPluginValidationIntegration
         typeName   | parameterType      | producer                                                            | className
         'File'     | ''                 | 'new File("some/path")'                                             | 'java.io.File'
         'Integer'  | ''                 | 'Integer.valueOf(1)'                                                | 'java.lang.Integer'
-        'SomeEnum' | ''                 | 'SomeEnum.A'                                                        | 'SomeEnum'
         'String'   | ''                 | 'new String()'                                                      | 'java.lang.String'
         'Iterable' | '<Integer>'        | 'Arrays.asList(Integer.valueOf(1), Integer.valueOf(2))'             | 'java.lang.Integer'
         'List'     | '<String>'         | 'Arrays.asList("value1", "value2")'                                 | 'java.lang.String'
@@ -956,6 +953,8 @@ class ValidatePluginsIntegrationTest extends AbstractPluginValidationIntegration
             import org.gradle.api.tasks.*;
             import org.gradle.work.*;
             import java.util.*;
+
+            enum SomeEnum { A, B, C }
 
             @DisableCachingByDefault(because = "test task")
             public class MyTask extends DefaultTask {
@@ -987,6 +986,7 @@ class ValidatePluginsIntegrationTest extends AbstractPluginValidationIntegration
         where:
         typeName   | parameterType      | producer
         'Options'  | ''                 | 'new Options()'
+        'SomeEnum' | ''                 | 'SomeEnum.A'
         'Iterable' | '<Options>'        | 'Arrays.asList(new Options(), new Options())'
         'Map'      | '<String,Options>' | 'Collections.singletonMap("a", new Options())'
         'Provider' | '<Options>'        | 'getProject().getProviders().provider(() -> new Options())'
